@@ -4,6 +4,7 @@
 	"main": "index.js",
 	"license": "MIT",
 	"devDependencies": {
+		"@playwright/test": "^1.57.0",
 		"@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
 		"@storybook/addon-essentials": "^8.0.5",
 		"@storybook/addon-interactions": "^8.0.5",
@@ -60,16 +61,24 @@
 	},
 	"scripts": {
 		"build": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.js --env env=prod",
+		"prestart": "playwright install --with-deps chromium",
 		"start": "webpack serve --config webpack/webpack.config.js --env env=dev",
+		"install:playwright": "playwright install --with-deps chromium",
+		"install:playwright-deps": "playwright install-deps",
+		"lint:all": "npm run stylelint:fix && npm run lint && npm run format",
+		"test": "npm run lint:all && npm run test:playwright",
+		"test:playwright": "playwright test",
+		"test:playwright:ui": "playwright test --ui",
+		"test:playwright:debug": "playwright test --debug",
 		"stylelint": "stylelint \"src/**/*.scss\"",
 		"stylelint:fix": "stylelint \"src/**/*.scss\" --fix",
 		"lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json}\"",
 		"format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\" --ignore-path ./.prettierignore",
-		"test": "npm run stylelint:fix && npm run lint && npm run format",
 		"prepare": "husky install",
 		"commit": "npm run test && cz",
 		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"build-storybook": "storybook build",
+		"dev": "npm run start"
 	},
 	"eslintConfig": {
 		"extends": [
